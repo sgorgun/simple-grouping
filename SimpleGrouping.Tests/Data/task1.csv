@@ -1,0 +1,5 @@
+customer_count,discount
+INTEGER,DOUBLE
+12,0.05
+6,0.1
+2,0.15
