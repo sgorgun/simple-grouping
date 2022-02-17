@@ -34,26 +34,27 @@ namespace SimpleGrouping.Tests
         }
 
         [Test]
-        public void FileWithQueries_Exists([Range(0, FilesCount - 1)] int index)
+        public void FileWithQueries_Exists([Range(1, FilesCount)] int index)
         {
-            AssertFileExist(index);
+            AssertFileExist(index - 1);
         }
 
         [Test]
-        public void FileWithQueries_NotEmpty([Range(0, FilesCount - 1)] int index)
+        public void FileWithQueries_NotEmpty([Range(1, FilesCount)] int index)
         {
-            AssertFileNotEmpty(index);
+            AssertFileNotEmpty(index - 1);
         }
 
         [Test]
-        public void AllInsertQueries_ExecuteSuccessfully([Range(0, FilesCount - 1)] int index)
+        public void AllInsertQueries_ExecuteSuccessfully([Range(1, FilesCount)] int index)
         {
-            AssertData(index);
+            AssertData(index - 1);
         }
 
         [Test]
-        public void SelectQuery_ReturnsCorrectRowsCount([Range(0, FilesCount - 1)] int index)
+        public void SelectQuery_ReturnsCorrectRowsCount([Range(1, FilesCount)] int index)
         {
+            index = -1;
             AssertData(index);
             var expected = ExpectedResults[index].Data.Length;
             var actual = ActualResults[index].Data.Length;
@@ -61,8 +62,9 @@ namespace SimpleGrouping.Tests
         }
 
         [Test]
-        public void SelectQuery_ReturnsCorrectSchema([Range(0, FilesCount - 1)] int index)
+        public void SelectQuery_ReturnsCorrectSchema([Range(1, FilesCount)] int index)
         {
+            index = -1;
             AssertData(index);
             var expected = ExpectedResults[index].Schema;
             var actual = ActualResults[index].Schema;
@@ -72,8 +74,9 @@ namespace SimpleGrouping.Tests
         }
 
         [Test]
-        public void SelectQuery_ReturnsCorrectTypes([Range(0, FilesCount - 1)] int index)
+        public void SelectQuery_ReturnsCorrectTypes([Range(1, FilesCount)] int index)
         {
+            index = -1;
             AssertData(index);
             var expected = ExpectedResults[index].Types;
             var actual = ActualResults[index].Types;
@@ -83,14 +86,29 @@ namespace SimpleGrouping.Tests
         }
 
         [Test]
-        public void SelectQuery_ReturnsCorrectData([Range(0, FilesCount - 1)] int index)
+        public void SelectQuery_ReturnsCorrectData([Range(1, FilesCount)] int index)
         {
+            index = -1;
             AssertData(index);
             var expected = ExpectedResults[index].Data;
             var actual = ActualResults[index].Data;
             var expectedMessage = MessageComposer.Compose(ExpectedResults[index].Schema, expected);
             var actualMessage = MessageComposer.Compose(ActualResults[index].Schema, actual);
             Assert.AreEqual(expected, actual, "\nExpected:\n{0}\n\nActual:\n{1}\n", expectedMessage, actualMessage);
+        }
+
+        [Test]
+        public void SelectQuery_ContainsSelectFrom([Range(1, FilesCount)] int index)
+        {
+            var actual = Queries[index - 1];
+            Assert.IsTrue(SelectHelper.ContainsSelectDistinctFrom(actual), "Query should contain 'SELECT' and 'FROM' statements.");
+        }
+
+        [Test]
+        public void SelectQuery_ContainsGroupBy([Range(1, FilesCount)] int index)
+        {
+            var actual = Queries[index - 1];
+            Assert.IsTrue(SelectHelper.ContainsGroupBy(actual), "Query should contain 'GROUP BY' statement.");
         }
 
         private static void AssertData(int index)
@@ -125,6 +143,8 @@ namespace SimpleGrouping.Tests
         private static void DeserializeResultFiles()
         {
             var files = Directory.GetFiles(Path.Combine(ProjectDirectory, "Data"), "*.csv");
+            if (files.Length == 0)
+                throw new FileNotFoundException("Files with expected data were not found.");
             ExpectedResults = new SelectResult[FilesCount];
             for (var i = 0; i < FilesCount; i++)
                 ExpectedResults[i] = SelectHelper.DeserializeResult(files[i]);
