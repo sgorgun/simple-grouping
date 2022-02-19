@@ -54,7 +54,7 @@ namespace SimpleGrouping.Tests
         [Test]
         public void SelectQuery_ReturnsCorrectRowsCount([Range(1, FilesCount)] int index)
         {
-            index = -1;
+            --index;
             AssertData(index);
             var expected = ExpectedResults[index].Data.Length;
             var actual = ActualResults[index].Data.Length;
@@ -64,7 +64,7 @@ namespace SimpleGrouping.Tests
         [Test]
         public void SelectQuery_ReturnsCorrectSchema([Range(1, FilesCount)] int index)
         {
-            index = -1;
+            --index;
             AssertData(index);
             var expected = ExpectedResults[index].Schema;
             var actual = ActualResults[index].Schema;
@@ -76,7 +76,7 @@ namespace SimpleGrouping.Tests
         [Test]
         public void SelectQuery_ReturnsCorrectTypes([Range(1, FilesCount)] int index)
         {
-            index = -1;
+            --index;
             AssertData(index);
             var expected = ExpectedResults[index].Types;
             var actual = ActualResults[index].Types;
@@ -88,7 +88,7 @@ namespace SimpleGrouping.Tests
         [Test]
         public void SelectQuery_ReturnsCorrectData([Range(1, FilesCount)] int index)
         {
-            index = -1;
+            --index;
             AssertData(index);
             var expected = ExpectedResults[index].Data;
             var actual = ActualResults[index].Data;
