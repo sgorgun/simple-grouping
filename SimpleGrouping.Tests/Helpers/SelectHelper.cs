@@ -1,11 +1,11 @@
 ﻿using Microsoft.Data.Sqlite;
-using SimpleGrouping.Tests.Models;
+using AutocodeDB.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace SimpleGrouping.Tests.Helpers
+namespace AutocodeDB.Helpers
 {
     internal class SelectHelper
     {
@@ -19,8 +19,8 @@ namespace SimpleGrouping.Tests.Helpers
         public static bool ContainsSelectFromAggregate(string query) => SelectFromAggregate_Regex.IsMatch(query);
         public static bool ContainsInnerJoin(string query) => InnerJoin_Regex.IsMatch(query);
         public static bool ContainsOrderBy(string query) => OrderBy_Regex.IsMatch(query);
-
         public static bool ContainsGroupBy(string query) => GroupBy_Regex.IsMatch(query);
+
         public static SelectResult[] GetResults(IEnumerable<string> queries)
         {
             var results = new List<SelectResult>();

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace SimpleGrouping.Tests.Models
+namespace AutocodeDB.Models
 {
     public class SelectResult
     {

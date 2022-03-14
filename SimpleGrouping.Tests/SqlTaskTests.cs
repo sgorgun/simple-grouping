@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
 using Microsoft.Data.Sqlite;
-using SimpleGrouping.Tests.Helpers;
+using AutocodeDB.Helpers;
 using System;
-using SimpleGrouping.Tests.Models;
+using AutocodeDB.Models;
 using System.IO;
 
 namespace SimpleGrouping.Tests
