@@ -124,6 +124,12 @@ namespace SimpleGrouping.Tests
             Assert.IsTrue(SelectHelper.ContainsGroupBy(actual), "Query should contain 'GROUP BY' statement.");
         }
 
+        [Test]
+        public void SelectQuery_ContainsSubqueries_False([Range(1, FilesCount)] int index)
+        {
+            var actual = Queries[index - 1];
+            Assert.IsFalse(SelectHelper.ContainsSubqueries(actual), "Query should not contain subselect 'SELECT ... SELECT' statement.");
+        }
         private  void AssertData(int index)
         {
             AssertFileExist(index);
