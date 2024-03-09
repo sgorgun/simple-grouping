@@ -5,6 +5,8 @@
         order_details
     GROUP BY
         customer_order_id
+    ORDER BY
+    total_order_discount
 )
 SELECT
     MAX(total_order_discount) AS max_order_discount
